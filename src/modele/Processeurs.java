@@ -3,34 +3,42 @@ package modele;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Processeurs implements Iterable{
-    private ArrayList<Integer> taches;
+public class Processeurs implements Iterable<Tache>{
+    private ArrayList<Tache> taches;
 
     public Processeurs(){
         taches = new ArrayList<>();
     }
 
-    public ArrayList<Integer> getTaches() {
-        return taches;
+    public void removeTache(Tache t){
+        taches.remove(t);
     }
 
-    public void setTaches(ArrayList<Integer> taches) {
+    public Tache getTaches(int index) {
+        return taches.get(index);
+    }
+
+    public void setTaches(ArrayList<Tache> taches) {
         this.taches = taches;
     }
 
-    public void addTache(int tache){
+    public void addTache(Tache tache){
         this.taches.add(tache);
     }
 
     public int getCout(){
         int cout = 0;
-        for (int i : taches){
-            cout += i;
+        for (Tache i : taches){
+            cout += i.getValue();
         }
         return cout;
     }
 
-    public Iterator<Integer> iterator(){
+    public int nbTaches(){
+        return taches.size();
+    }
+
+    public Iterator<Tache> iterator(){
         return taches.iterator();
     }
 }
