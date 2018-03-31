@@ -26,7 +26,12 @@ public class Etat {
 
     public void fluctuation(){
         Random rand = new Random();
-        int indexProc = rand.nextInt(getNbProc());
+        int indexProc;
+        if (getNbProc() == 1){
+            indexProc = 0;
+        } else {
+            indexProc = rand.nextInt(getNbProc());
+        }
         while (processeurs.get(indexProc).nbTaches() == 0)
             indexProc = rand.nextInt(getNbProc());
         int indexTache;
@@ -72,5 +77,18 @@ public class Etat {
 
     public ArrayList<Processeurs> getProcesseurs() {
         return processeurs;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Etat eq = (Etat)obj;
+        int incr = 0;
+        for (Processeurs p : processeurs){
+            for (Processeurs p2 : eq.getProcesseurs()){
+                if (p.equals(p2))
+                    incr++;
+            }
+        }
+        return incr == getNbProc();
     }
 }

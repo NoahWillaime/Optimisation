@@ -20,6 +20,8 @@ public class VueRecuit extends JPanel implements Observer {
     private JPanel info;
     private JLabel tachesInfo;
     private JLabel affichageTemp;
+    private JButton lancer;
+    private JPanel button;
 
     public VueRecuit(java.util.Observable o) {
         super();
@@ -41,18 +43,25 @@ public class VueRecuit extends JPanel implements Observer {
             j++;
         }
         finRecuit = new JTextPane();
+        finRecuit.setPreferredSize(new Dimension(300, 300));
         finRecuit.setEditable(false);
         princip.add(finRecuit, BorderLayout.SOUTH);
         temperature = new JButton("Choisir la Température initiale");
         temperature.addActionListener(e -> {
             try{
                 int val = Integer.parseInt(JOptionPane.showInputDialog("Température initial ? "));
-                m.setInitTemp(val);
+                if (val <= 0){
+                    JOptionPane.showMessageDialog(null, "La température ne peut être inférieur (ou égal) à 0", "Temperature ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    m.setInitTemp(val);
+                }
             } catch (NumberFormatException excp) {
                 JOptionPane.showMessageDialog(null, "Vous n'avez pas rentre un nombre ..", "Valeur de case ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
-        this.add(temperature, BorderLayout.SOUTH);
+        button = new JPanel(new BorderLayout());
+        this.add(button, BorderLayout.SOUTH);
+        button.add(temperature, BorderLayout.NORTH);
         info = new JPanel();
         info.setLayout(new GridLayout(2, 1));
         affichageTemp = new JLabel("Température initial : "+m.getSaveTemp());
@@ -60,6 +69,9 @@ public class VueRecuit extends JPanel implements Observer {
         this.add(info, BorderLayout.NORTH);
         tachesInfo = new JLabel("Choix de Pi pour la Tache Ti");
         info.add(tachesInfo);
+        lancer = new JButton("Lancer le Recuit Simulé");
+        lancer.addActionListener(event -> m.algoRecuit());
+        button.add(lancer, BorderLayout.SOUTH);
     }
 
     @Override
